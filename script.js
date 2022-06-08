@@ -16,7 +16,7 @@ hamIcon.addEventListener('click',function(){
 });
 
 
-// Loading assets to sidebar
+// Loading assets title to sidebar
 
 const titleBox=document.querySelector('.taskname');
 const titleSide=document.querySelector('.title');
@@ -24,10 +24,15 @@ const titleSide=document.querySelector('.title');
 const titlesSlide=document.querySelector('.assest-heading').children[0];
 const taskBox=document.querySelector('.box');
 
-// Storing data fetch from project.json
+// Storing data fetched from project.json
 var titleName='';
 var assetArray;
 
+
+/*
+function to fetch data and display it on the main task container and
+I have differentiated assets based on 'assest type' -> 1. disply_asset 2.input asset
+*/
 const getlocn=async function getlocn(){
     
     // fetching from JSON
@@ -62,14 +67,12 @@ const getlocn=async function getlocn(){
                 child.setAttribute('src',`${assetArray[i].display_asset_image}`);
                
                 childHTML.append(child);
-                console.log(childHTML);
             }
             else if(assetArray[i].display_asset_url)
             {
                 var child=document.createElement('embed');
                 child.setAttribute('src',`${assetArray[i].display_asset_url}`);
                 childHTML.append(child);
-                console.log(childHTML);
             }
             else if(assetArray[i].display_asset_video)
             {
@@ -81,7 +84,6 @@ const getlocn=async function getlocn(){
                 video.setAttribute('width','400');
                 video.setAttribute('height','315');
                 childHTML.append(video);
-                console.log(childHTML);
 
                 /* 
                 <iframe width="420" height="315"
@@ -96,21 +98,40 @@ const getlocn=async function getlocn(){
                 child.setAttribute('width','400');
                 child.setAttribute('height','315');
                 childHTML.append(child);
-                console.log(childHTML);
             }
-        }
-        else
-        {
+
+            html.appendChild(childHTML);
             var desc=document.createElement('div');
-            desc.innerHTML+=`<p>${assetArray[i].asset_description}</p>`;
-            childHTML.append(desc);
+            desc.classList.add('box-desc')
+            desc.innerHTML=`<p>${assetArray[i].asset_description}</p>`;
+
+            html.appendChild(desc);
+        }
+        else if(assetArray[i].asset_type=="input_asset")
+        {
+            console.log(10);
+            var form=document.createElement('form');
+            var label=document.createElement('label');
+            label.setAttribute('for',`${assetArray[i].asset_id}`);
+
+            var input=document.createElement('input');
+            input.setAttribute('id',`${assetArray[i].asset_id}`);
+            input.setAttribute('name',`${assetArray[i].asset_id}`);
+            input.setAttribute('type',`text`);
+            input.setAttribute('placeholder',`Reflect as per guidlines`);
+
+            form.append(label);
+            form.append(input);
+
+            childHTML.append(form);
+            html.appendChild(childHTML);
+        }
+        else{
+
         }
 
-        html.appendChild(childHTML);
-        var desc=document.createElement('div');
-        desc.classList.add('box-desc')
-        desc.innerHTML=`<p>${assetArray[i].asset_description}</p>`;
-        html.appendChild(desc);
+        
+        html.setAttribute('id',`${assetArray[i].asset_id}`);
         taskBox.appendChild(html);
         
 
