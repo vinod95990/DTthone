@@ -126,9 +126,7 @@ const getlocn=async function getlocn(){
             childHTML.append(form);
             html.appendChild(childHTML);
         }
-        else{
 
-        }
 
         
         html.setAttribute('id',`${assetArray[i].asset_id}`);
